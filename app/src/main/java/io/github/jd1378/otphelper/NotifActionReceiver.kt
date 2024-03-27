@@ -22,13 +22,13 @@ class NotifActionReceiver : BroadcastReceiver() {
   @Inject lateinit var ignoredNotifSetRepository: IgnoredNotifSetRepository
 
   companion object {
-    const val INTENT_ACTION_CODE_COPY = "io.github.jd1378.otphelper.actions.code_copy"
+    const val INTENT_ACTION_CODE_COPY = "${BuildConfig.APPLICATION_ID}.actions.code_copy"
     const val INTENT_ACTION_IGNORE_TAG_NOTIFICATION_TAG =
-        "io.github.jd1378.otphelper.actions.ignore_notif_tag"
+        "${BuildConfig.APPLICATION_ID}.actions.ignore_notif_tag"
     const val INTENT_ACTION_IGNORE_TAG_NOTIFICATION_NID =
-        "io.github.jd1378.otphelper.actions.ignore_notif_nid"
+        "${BuildConfig.APPLICATION_ID}.actions.ignore_notif_tag"
     const val INTENT_ACTION_IGNORE_NOTIFICATION_APP =
-        "io.github.jd1378.otphelper.actions.ignore_notif_app"
+        "${BuildConfig.APPLICATION_ID}.actions.ignore_notif_app"
 
     fun getActiveNotification(context: Context, notificationId: Int): Notification? {
       val notificationManager =

@@ -113,6 +113,11 @@ fun Home(onNavigateToRoute: (String) -> Unit, modifier: Modifier, viewModel: Hom
             }
             Button(
                 modifier = Modifier.fillMaxWidth(),
+                onClick = { onNavigateToRoute(MainDestinations.NETWORK_CONFIG) }) {
+              Text(text = stringResource(R.string.network_config))
+            }
+            Button(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = { onNavigateToRoute(MainDestinations.LANGUAGE_SELECTION_ROUTE) }) {
                   Text(text = stringResource(R.string.language))
                 }

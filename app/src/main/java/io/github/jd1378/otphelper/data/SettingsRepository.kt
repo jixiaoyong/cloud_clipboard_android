@@ -13,41 +13,103 @@ constructor(private val preferenceDataStoreHelper: PreferenceDataStoreHelper) {
 
   fun getIsAutoCopyEnabledStream(): Flow<Boolean> {
     return preferenceDataStoreHelper.getPreference(
-        PreferenceDataStoreConstants.IS_AUTO_COPY_ENABLED, false)
+        PreferenceDataStoreConstants.IS_AUTO_COPY_ENABLED, false,
+    )
   }
 
   fun getIsPostNotifEnabledStream(): Flow<Boolean> {
     return preferenceDataStoreHelper.getPreference(
-        PreferenceDataStoreConstants.IS_POST_NOTIF_ENABLED, true)
+        PreferenceDataStoreConstants.IS_POST_NOTIF_ENABLED, true,
+    )
   }
 
   fun getIsSetupFinishedStream(): Flow<Boolean> {
     return preferenceDataStoreHelper.getPreference(
-        PreferenceDataStoreConstants.IS_SETUP_FINISHED, false)
+        PreferenceDataStoreConstants.IS_SETUP_FINISHED, false,
+    )
   }
 
   suspend fun getIsAutoCopyEnabled(): Boolean {
     return preferenceDataStoreHelper.getFirstPreference(
-        PreferenceDataStoreConstants.IS_AUTO_COPY_ENABLED, false)
+        PreferenceDataStoreConstants.IS_AUTO_COPY_ENABLED, false,
+    )
   }
 
   suspend fun getIsPostNotifEnabled(): Boolean {
     return preferenceDataStoreHelper.getFirstPreference(
-        PreferenceDataStoreConstants.IS_POST_NOTIF_ENABLED, true)
+        PreferenceDataStoreConstants.IS_POST_NOTIF_ENABLED, true,
+    )
+  }
+
+  fun getIsAutoSyncStream(): Flow<Boolean> {
+    return preferenceDataStoreHelper.getPreference(
+        PreferenceDataStoreConstants.IS_AUTO_SYNC, true,
+    )
+  }
+
+  suspend fun getIsAutoSync(): Boolean {
+    return preferenceDataStoreHelper.getFirstPreference(
+        PreferenceDataStoreConstants.IS_AUTO_SYNC, true,
+    )
+  }
+
+  fun getBaseUrlStream(): Flow<String> {
+    return preferenceDataStoreHelper.getPreference(
+        PreferenceDataStoreConstants.BASE_URL, "",
+    )
+  }
+
+  fun getUuidStream(): Flow<String> {
+    return preferenceDataStoreHelper.getPreference(
+        PreferenceDataStoreConstants.UUID, "",
+    )
+  }
+
+  suspend fun getBaseUrl(): String {
+    return preferenceDataStoreHelper.getFirstPreference(
+        PreferenceDataStoreConstants.BASE_URL, "",
+    )
+  }
+
+  suspend fun getUuid(): String {
+    return preferenceDataStoreHelper.getFirstPreference(
+        PreferenceDataStoreConstants.UUID, "",
+    )
+  }
+
+  suspend fun setIsAutoSync(newValue: Boolean) {
+    preferenceDataStoreHelper.putPreference(
+        PreferenceDataStoreConstants.IS_AUTO_SYNC, newValue,
+    )
   }
 
   suspend fun setIsAutoCopyEnabled(newValue: Boolean) {
     preferenceDataStoreHelper.putPreference(
-        PreferenceDataStoreConstants.IS_AUTO_COPY_ENABLED, newValue)
+        PreferenceDataStoreConstants.IS_AUTO_COPY_ENABLED, newValue,
+    )
   }
 
   suspend fun setIsPostNotifEnabled(newValue: Boolean) {
     preferenceDataStoreHelper.putPreference(
-        PreferenceDataStoreConstants.IS_POST_NOTIF_ENABLED, newValue)
+        PreferenceDataStoreConstants.IS_POST_NOTIF_ENABLED, newValue,
+    )
   }
 
   suspend fun setIsSetupFinished(newValue: Boolean) {
     preferenceDataStoreHelper.putPreference(
-        PreferenceDataStoreConstants.IS_SETUP_FINISHED, newValue)
+        PreferenceDataStoreConstants.IS_SETUP_FINISHED, newValue,
+    )
+  }
+
+  suspend fun setBaseUrl(newValue: String) {
+    preferenceDataStoreHelper.putPreference(
+        PreferenceDataStoreConstants.BASE_URL, newValue,
+    )
+  }
+
+  suspend fun setUuid(newValue: String) {
+    preferenceDataStoreHelper.putPreference(
+        PreferenceDataStoreConstants.UUID, newValue,
+    )
   }
 }
