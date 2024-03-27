@@ -15,6 +15,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jd1378.otphelper.R
 import io.github.jd1378.otphelper.data.SettingsRepository
+import io.github.jd1378.otphelper.network.NetUtils
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,33 +24,40 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 data class HomeUiState(
-    val isAutoCopyEnabled: Boolean = false,
-    val isPostNotifEnabled: Boolean = true,
-    val isSetupFinished: Boolean = true,
+  val isAutoCopyEnabled: Boolean = false,
+  val isPostNotifEnabled: Boolean = true,
+  val isSetupFinished: Boolean = true,
 )
 
 @HiltViewModel
 class HomeViewModel
 @Inject
 constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val settingsRepository: SettingsRepository
+  private val savedStateHandle: SavedStateHandle,
+  private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
   val uiState: StateFlow<HomeUiState> =
       combine(
               settingsRepository.getIsAutoCopyEnabledStream(),
               settingsRepository.getIsPostNotifEnabledStream(),
-              settingsRepository.getIsSetupFinishedStream()) {
-                  isAutoCopyEnabled,
-                  isPostNotifEnabled,
-                  isSetupFinished ->
-                HomeUiState(isAutoCopyEnabled, isPostNotifEnabled, isSetupFinished)
-              }
+              settingsRepository.getIsSetupFinishedStream(),
+      ) { isAutoCopyEnabled,
+          isPostNotifEnabled,
+          isSetupFinished ->
+        HomeUiState(isAutoCopyEnabled, isPostNotifEnabled, isSetupFinished)
+      }
           .stateIn(
-              scope = viewModelScope,
-              started = SharingStarted.WhileSubscribed(5_000),
-              initialValue = HomeUiState())
+                  scope = viewModelScope,
+                  started = SharingStarted.WhileSubscribed(5_000),
+                  initialValue = HomeUiState(),
+          )
+
+  init {
+    viewModelScope.launch {
+      NetUtils.init(settingsRepository)
+    }
+  }
 
   fun onAutoCopyToggle() {
     val newValue = !uiState.value.isAutoCopyEnabled
@@ -73,7 +81,7 @@ constructor(
 
   fun onSendTestNotifPressed(context: Context) {
     if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
-        PackageManager.PERMISSION_GRANTED) {
+      PackageManager.PERMISSION_GRANTED) {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
         val name = context.getString(R.string.code_detected_channel_name)

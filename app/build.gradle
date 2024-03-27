@@ -10,7 +10,7 @@ android {
   compileSdk 34
 
   defaultConfig {
-    applicationId "io.github.jd1378.otphelper"
+    applicationId "io.github.jd1378.otphelper.cloud"
     minSdk 24
     targetSdk 34
     versionCode 20
@@ -98,6 +98,11 @@ dependencies {
   def appcompat_version = '1.7.0-alpha03'
   implementation "androidx.appcompat:appcompat:$appcompat_version"
   implementation "androidx.appcompat:appcompat-resources:$appcompat_version"
+
+  // network
+  implementation "com.squareup.retrofit2:retrofit:2.10.0"
+  implementation "com.squareup.retrofit2:converter-gson:2.10.0"
+  implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }
 
 // Allow references to generated code

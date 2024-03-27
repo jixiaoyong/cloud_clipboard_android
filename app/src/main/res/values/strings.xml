@@ -12,6 +12,7 @@
   <string name="wont_detect_code_from_this_app">Won\'t detect code from this app again</string>
   <string name="copied">Copied</string>
   <string name="ignored_list">Ignored List</string>
+  <string name="network_config">Network Config</string>
   <string name="open_notification_permission">Open Notification Permission</string>
   <string name="send_test_notification">Send Test Notification</string>
   <string name="auto_copy">Auto Copy</string>
