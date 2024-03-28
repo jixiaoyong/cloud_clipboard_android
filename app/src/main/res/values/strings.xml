@@ -74,4 +74,11 @@
   <string name="permission_revoked_channel_description">Reminds the user about required permissions</string>
   <string name="permission_revoked">Permission Revoked</string>
   <string name="permission_revoked_notification_hint">Please grant read notification permission again. Tap this message to open settings.</string>
+  <string name="network_config">Network Config</string>
+  <string name="net_info_input_server_url">Enter the server url</string>
+  <string name="net_info_input_uuid">Enter UUID</string>
+  <string name="save">save</string>
+  <string name="net_info_sync_statue">Current status:</string>
+  <string name="net_info_sync_open">Automatically sync cloud server</string>
+  <string name="net_info_sync_off">Do not automatically synchronize cloud servers</string>
 </resources>
