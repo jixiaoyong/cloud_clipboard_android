@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 /**
  * @author : jixiaoyong
- * @description ：TODO
+ * @description ：设置网络同步参数
  *
  * @email : jixiaoyong1995@gmail.com
  * @date : 27/3/2024
@@ -42,9 +42,7 @@ constructor(
           settingsRepository.getIsAutoSyncStream(),
           settingsRepository.getBaseUrlStream(),
           settingsRepository.getUuidStream(),
-      ) { isAutoSync,
-          baseUrl,
-          uuid ->
+      ) { isAutoSync, baseUrl, uuid ->
         NetworkConfigUiState(isAutoSync, baseUrl, uuid)
       }
           .stateIn(

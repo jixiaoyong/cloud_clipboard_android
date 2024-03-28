@@ -52,14 +52,14 @@ class CodeDetectedReceiver : BroadcastReceiver() {
           if (autoCopyEnabled) {
             Clipboard.copyCodeToClipboard(context, code)
           }
-          val isAutoSync = settingsRepository.getIsAutoSync()
-          if(isAutoSync){
-             NetUtils.api.save(code).let {
-               println("save result: $it")
-             }
-          }
+
           if (settingsRepository.getIsPostNotifEnabled()) {
             NotificationSender.sendDetectedNotif(context, intent.extras!!, code, autoCopyEnabled)
+          }
+
+          val isAutoSync = settingsRepository.getIsAutoSync()
+          if(isAutoSync){
+            NetUtils.api.save(code)
           }
         } catch (e: Exception) {
           Log.e(TAG, e.stackTraceToString())

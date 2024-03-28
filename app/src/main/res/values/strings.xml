@@ -12,7 +12,6 @@
   <string name="wont_detect_code_from_this_app">Won\'t detect code from this app again</string>
   <string name="copied">Copied</string>
   <string name="ignored_list">Ignored List</string>
-  <string name="network_config">Network Config</string>
   <string name="open_notification_permission">Open Notification Permission</string>
   <string name="send_test_notification">Send Test Notification</string>
   <string name="auto_copy">Auto Copy</string>
@@ -70,4 +69,11 @@
   <string name="label_source_code_link">Source Code:</string>
   <string name="ignore_tag">Ignore Tag</string>
   <string name="ignore_app">Ignore App</string>
+  <string name="network_config">Network Config</string>
+  <string name="net_info_input_server_url">Enter the server url</string>
+  <string name="net_info_input_uuid">Enter UUID</string>
+  <string name="save">save</string>
+  <string name="net_info_sync_statue">Current status:</string>
+  <string name="net_info_sync_open">Automatically sync cloud server</string>
+  <string name="net_info_sync_off">Do not automatically synchronize cloud servers</string>
 </resources>

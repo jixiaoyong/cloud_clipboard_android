@@ -41,8 +41,9 @@ object NetUtils {
           val request = it.request()
           it.proceed(
               it.request().newBuilder()
-                  .url(request.url.toString().replace(BASE_URL_PLACEHOLDER, realBaseUrl))
-                  .addHeader("X-UUID", getUuid()).build(),
+                  .url(request.url.toString().replace(BASE_URL_PLACEHOLDER, realBaseUrl,true))
+                  .addHeader("X-UUID", getUuid())
+                  .build(),
           )
         }
         .addInterceptor(logging)

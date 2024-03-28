@@ -52,4 +52,12 @@
   <string name="wont_detect_code_from_this_app">不会再次检测来自此应用程序的代码</string>
   <string name="ignore_tag">忽略标签</string>
   <string name="ignore_app">忽略应用程序</string>
+  <string name="network_config">网络同步配置</string>
+  <string name="net_info_input_server_url">输入后台服务器地址</string>
+  <string name="net_info_input_uuid">输入UUID</string>
+  <string name="save">保存</string>
+  <string name="net_info_sync_statue">当前状态：</string>
+  <string name="net_info_sync_open">自动同步云服务器</string>
+  <string name="net_info_sync_off">不自动同步云服务器</string>
+
 </resources>
