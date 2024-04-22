@@ -56,10 +56,13 @@
   <string name="permission_revoked">权限被撤销</string>
   <string name="permission_revoked_notification_hint">请再次授予读取通知权限。 点击此消息可打开设置。</string>
   <string name="network_config">网络同步配置</string>
+  <string name="clipboard_config">剪贴板配置</string>
   <string name="net_info_input_server_url">输入后台服务器地址</string>
   <string name="net_info_input_uuid">输入UUID</string>
   <string name="save">保存</string>
   <string name="net_info_sync_statue">当前状态：</string>
   <string name="net_info_sync_open">自动同步云服务器</string>
   <string name="net_info_sync_off">不自动同步云服务器</string>
+  <string name="clipboard_auto_upload">自动将剪贴板内容上传到服务器</string>
+  <string name="clipboard_auto_download">自动从服务器获取剪贴板内容</string>
 </resources>

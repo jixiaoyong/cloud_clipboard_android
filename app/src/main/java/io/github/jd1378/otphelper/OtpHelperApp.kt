@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import io.github.jd1378.otphelper.ui.navigation.MainDestinations
 import io.github.jd1378.otphelper.ui.navigation.rememberTheNavController
 import io.github.jd1378.otphelper.ui.screens.about.addAboutGraph
+import io.github.jd1378.otphelper.ui.screens.clipboard.addClipboardConfigGraph
 import io.github.jd1378.otphelper.ui.screens.home.addHomeGraph
 import io.github.jd1378.otphelper.ui.screens.ignored_list.addIgnoredListGraph
 import io.github.jd1378.otphelper.ui.screens.language_selection.addLanguageSelectionGraph
@@ -53,15 +54,16 @@ fun OtpHelperApp() {
         },
     ) {
       otphelperNavGraph(
-          upPress = theNavController::upPress,
-          onNavigateToRoute = theNavController::navigateToRoute)
+              upPress = theNavController::upPress,
+              onNavigateToRoute = theNavController::navigateToRoute,
+      )
     }
   }
 }
 
 private fun NavGraphBuilder.otphelperNavGraph(
-    upPress: () -> Unit,
-    onNavigateToRoute: (String) -> Unit
+  upPress: () -> Unit,
+  onNavigateToRoute: (String) -> Unit
 ) {
   addHomeGraph(onNavigateToRoute)
   addLanguageSelectionGraph(upPress)
@@ -69,6 +71,7 @@ private fun NavGraphBuilder.otphelperNavGraph(
   addPermissionsGraph(onNavigateToRoute, upPress)
   addAboutGraph(upPress)
   addNetworkConfigGraph(upPress)
+  addClipboardConfigGraph(upPress)
   // for nested navigation (example):
   //  navigation(route = MainDestinations.HOME_ROUTE, startDestination =
   //          HomeSections.FEED.route) {

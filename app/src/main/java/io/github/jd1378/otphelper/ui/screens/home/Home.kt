@@ -33,8 +33,8 @@ import io.github.jd1378.otphelper.R
 import io.github.jd1378.otphelper.ui.navigation.MainDestinations
 
 fun NavGraphBuilder.addHomeGraph(
-    onNavigateToRoute: (String) -> Unit,
-    modifier: Modifier = Modifier
+  onNavigateToRoute: (String) -> Unit,
+  modifier: Modifier = Modifier
 ) {
   composable(MainDestinations.HOME_ROUTE) {
     val viewModel = hiltViewModel<HomeViewModel>()
@@ -55,73 +55,91 @@ fun Home(onNavigateToRoute: (String) -> Unit, modifier: Modifier, viewModel: Hom
   }
 
   Scaffold(
-      modifier = modifier,
-      topBar = {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-          IconButton(onClick = { onNavigateToRoute(MainDestinations.ABOUT_ROUTE) }) {
-            Icon(
-                imageVector = Icons.Outlined.Info,
-                contentDescription = stringResource(R.string.about))
-          }
-        }
-      }) { padding ->
-        Column(
-            modifier = Modifier.fillMaxSize().padding(padding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+          modifier = modifier,
+          topBar = {
+              Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                  IconButton(onClick = { onNavigateToRoute(MainDestinations.ABOUT_ROUTE) }) {
+                      Icon(
+                              imageVector = Icons.Outlined.Info,
+                              contentDescription = stringResource(R.string.about),
+                      )
+                  }
+              }
+          },
+  ) { padding ->
+    Column(
+        modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+      Column(
+          Modifier.width(IntrinsicSize.Max),
+          verticalArrangement = Arrangement.spacedBy(8.dp),
+      ) {
+        Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { onNavigateToRoute(MainDestinations.PERMISSIONS_ROUTE) },
         ) {
-          Column(
-              Modifier.width(IntrinsicSize.Max),
-              verticalArrangement = Arrangement.spacedBy(8.dp),
-          ) {
-            Button(
+          Text(text = stringResource(R.string.PERMISSION_ROUTE))
+        }
+        Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onNavigateToRoute(MainDestinations.PERMISSIONS_ROUTE) }) {
-                  Text(text = stringResource(R.string.PERMISSION_ROUTE))
-                }
-            Button(
+                onClick = { viewModel.onSendTestNotifPressed(context) },
+        ) {
+          Text(text = stringResource(R.string.send_test_notification))
+        }
+        Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { viewModel.onSendTestNotifPressed(context) }) {
-                  Text(text = stringResource(R.string.send_test_notification))
-                }
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = { onNavigateToRoute(MainDestinations.IGNORED_LIST_ROUTE) }) {
-                  Text(text = stringResource(R.string.ignored_list))
-                }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-              Text(text = stringResource(R.string.auto_copy), Modifier.padding(horizontal = 10.dp))
-              Switch(
+                onClick = { onNavigateToRoute(MainDestinations.IGNORED_LIST_ROUTE) },
+        ) {
+          Text(text = stringResource(R.string.ignored_list))
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+          Text(text = stringResource(R.string.auto_copy), Modifier.padding(horizontal = 10.dp))
+          Switch(
                   checked = uiState.isAutoCopyEnabled,
-                  onCheckedChange = { viewModel.onAutoCopyToggle() })
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-              Text(
+                  onCheckedChange = { viewModel.onAutoCopyToggle() },
+          )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+          Text(
                   text = stringResource(R.string.send_detected_notif),
-                  Modifier.padding(horizontal = 10.dp))
-              Switch(
+                  Modifier.padding(horizontal = 10.dp),
+          )
+          Switch(
                   checked = uiState.isPostNotifEnabled,
-                  onCheckedChange = { viewModel.onPostNotifToggle() })
-            }
-            Button(
+                  onCheckedChange = { viewModel.onPostNotifToggle() },
+          )
+        }
+        Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onNavigateToRoute(MainDestinations.NETWORK_CONFIG) }) {
-              Text(text = stringResource(R.string.network_config))
-            }
-            Button(
+                onClick = { onNavigateToRoute(MainDestinations.NETWORK_CONFIG) },
+        ) {
+          Text(text = stringResource(R.string.network_config))
+        }
+        Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = { onNavigateToRoute(MainDestinations.LANGUAGE_SELECTION_ROUTE) }) {
-                  Text(text = stringResource(R.string.language))
-                }
-          }
+                onClick = { onNavigateToRoute(MainDestinations.CLIPBOARD_CONFIG) },
+        ) {
+          Text(text = stringResource(R.string.clipboard_config))
+        }
+        Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { onNavigateToRoute(MainDestinations.LANGUAGE_SELECTION_ROUTE) },
+        ) {
+          Text(text = stringResource(R.string.language))
         }
       }
+    }
+  }
 }
