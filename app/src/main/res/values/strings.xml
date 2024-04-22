@@ -70,10 +70,13 @@
   <string name="ignore_tag">Ignore Tag</string>
   <string name="ignore_app">Ignore App</string>
   <string name="network_config">Network Config</string>
+  <string name="clipboard_config">Clipboard Config</string>
   <string name="net_info_input_server_url">Enter the server url</string>
   <string name="net_info_input_uuid">Enter UUID</string>
   <string name="save">save</string>
   <string name="net_info_sync_statue">Current status:</string>
   <string name="net_info_sync_open">Automatically sync cloud server</string>
   <string name="net_info_sync_off">Do not automatically synchronize cloud servers</string>
+  <string name="clipboard_auto_upload">Automatically upload clipboard content to server</string>
+  <string name="clipboard_auto_download">Automatically fetch clipboard content from server</string>
 </resources>

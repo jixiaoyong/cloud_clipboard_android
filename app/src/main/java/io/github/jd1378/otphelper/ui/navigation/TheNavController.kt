@@ -23,16 +23,17 @@ object MainDestinations {
   const val PERMISSIONS_SETUP_ROUTE = "permissions?setup={setup}"
   const val ABOUT_ROUTE = "about"
   const val NETWORK_CONFIG = "network_config"
+  const val CLIPBOARD_CONFIG: String = "clipboard_config"
 }
 
 @Composable
 fun rememberTheNavController(
-    navController: NavHostController = rememberNavController()
+  navController: NavHostController = rememberNavController()
 ): TheNavController = remember(navController) { TheNavController(navController) }
 
 @Stable
 class TheNavController(
-    val navController: NavHostController,
+  val navController: NavHostController,
 ) {
   private val currentRoute: String?
     get() = navController.currentDestination?.route
@@ -44,10 +45,9 @@ class TheNavController(
     get() = _currentRouteFlow
 
   init {
-    navController.addOnDestinationChangedListener {
-        _: NavController,
-        navDestination: NavDestination,
-        _: Bundle? ->
+    navController.addOnDestinationChangedListener { _: NavController,
+                                                    navDestination: NavDestination,
+                                                    _: Bundle? ->
       _currentRouteFlow.value = navDestination.route
     }
   }

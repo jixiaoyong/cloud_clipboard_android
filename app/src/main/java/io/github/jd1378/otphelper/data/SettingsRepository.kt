@@ -2,9 +2,9 @@ package io.github.jd1378.otphelper.data
 
 import io.github.jd1378.otphelper.data.local.PreferenceDataStoreConstants
 import io.github.jd1378.otphelper.data.local.PreferenceDataStoreHelper
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.flow.Flow
 
 @Singleton
 class SettingsRepository
@@ -50,6 +50,12 @@ constructor(private val preferenceDataStoreHelper: PreferenceDataStoreHelper) {
   suspend fun getIsAutoSync(): Boolean {
     return preferenceDataStoreHelper.getFirstPreference(
         PreferenceDataStoreConstants.IS_AUTO_SYNC, true,
+    )
+  }
+
+  suspend fun getClipboardConfigSync(): Int {
+    return preferenceDataStoreHelper.getFirstPreference(
+        PreferenceDataStoreConstants.CLIPBOARD_CONFIG, 0,
     )
   }
 
@@ -110,6 +116,12 @@ constructor(private val preferenceDataStoreHelper: PreferenceDataStoreHelper) {
   suspend fun setUuid(newValue: String) {
     preferenceDataStoreHelper.putPreference(
         PreferenceDataStoreConstants.UUID, newValue,
+    )
+  }
+
+  suspend fun setClipboardConfigSync(newValue: Int) {
+    return preferenceDataStoreHelper.putPreference(
+        PreferenceDataStoreConstants.CLIPBOARD_CONFIG, newValue,
     )
   }
 }
