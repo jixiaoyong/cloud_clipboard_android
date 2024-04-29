@@ -62,7 +62,7 @@ class CodeDetectedReceiver : BroadcastReceiver() {
 
           val isAutoSync = settingsRepository.getIsAutoSync()
           if(isAutoSync){
-            NetUtils.api.save(code)
+            NetUtils.getApiOrNull()?.save(code)
           }
         } catch (e: Exception) {
           Log.e(TAG, e.stackTraceToString())

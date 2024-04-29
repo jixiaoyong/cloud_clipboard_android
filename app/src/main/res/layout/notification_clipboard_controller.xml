@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="同步手机和云端☁️的剪贴板内容"
+      android:textAlignment="center"
+      android:textColor="@color/notif_primary"
+      android:textSize="16sp" />
+
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="默认会自动定时从云端复制到手机"
+      android:textAlignment="center"
+      android:textSize="10sp" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="1px"
+      android:layout_marginVertical="5dp"
+      android:background="@color/notif_primary" />
+
+  <TextView
+      android:id="@+id/lastClipboard"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginVertical="5dp"
+      android:ellipsize="end"
+      android:maxLines="5"
+      tools:text="LAST CLIPBOARD CONTENT" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="20dp"
+      android:layout_marginVertical="5dp"
+      android:background="@drawable/bg_round_10dp_white"
+      android:backgroundTint="#362576F7"
+      android:backgroundTintMode="src_in"
+      android:gravity="center"
+      android:orientation="horizontal"
+      android:paddingVertical="5dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/pauseBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="@drawable/bg_round_10dp_white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="6dp">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="暂停同步"
+          android:textAlignment="center"
+          android:textColor="#ff2576F7"
+          android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/resumeBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="@drawable/bg_round_10dp_white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="6dp">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="恢复同步"
+          android:textAlignment="center"
+          android:textColor="#ff2576F7"
+          android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="@drawable/bg_round_10dp_white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="6dp">
+
+      <TextView
+          android:id="@+id/fetchClipboard"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="复制"
+          android:textAlignment="center"
+          android:textColor="#ff2576F7"
+          android:textSize="12sp" />
+
+      <ProgressBar
+          android:id="@+id/progress_circular"
+          android:layout_width="15dp"
+          android:layout_height="15dp"
+          android:secondaryProgressTint="#ff2576F7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+  </LinearLayout>
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingHorizontal="5dp"
+      android:paddingVertical="8dp"
+      android:text="如果你需要主动向其他设备推送文本，点击“上传剪贴版内容”然后点发送,内容会发送到云端（受Android系统限制，APP无法在后台自动读取剪贴板）"
+      android:textSize="10sp" />
+
+
+</LinearLayout>

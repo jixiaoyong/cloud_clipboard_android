@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
  */
 object NetUtils {
 
-  lateinit var api: ApiService
+  private var api: ApiService? = null
 
   private const val TIME_OUT_DURATION = 20L
   private const val BASE_URL_PLACEHOLDER = "https://BASE_URL_PLACEHOLDER.COM"
@@ -41,7 +41,7 @@ object NetUtils {
           val request = it.request()
           it.proceed(
               it.request().newBuilder()
-                  .url(request.url.toString().replace(BASE_URL_PLACEHOLDER, realBaseUrl,true))
+                  .url(request.url.toString().replace(BASE_URL_PLACEHOLDER, realBaseUrl, true))
                   .addHeader("X-UUID", getUuid())
                   .build(),
           )
@@ -56,6 +56,13 @@ object NetUtils {
         .build()
 
     api = retrofit.create(ApiService::class.java)
+  }
+
+  fun getApiOrNull(): ApiService? {
+    if (realBaseUrl.isEmpty() || realUuid.isEmpty()) {
+      return null
+    }
+    return api
   }
 
   suspend fun updateBaseUrlAndUuid(baseUrl: String, uuid: String) {
