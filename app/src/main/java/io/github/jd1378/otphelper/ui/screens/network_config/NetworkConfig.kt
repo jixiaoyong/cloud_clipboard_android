@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -44,7 +45,13 @@ fun NavGraphBuilder.addNetworkConfigGraph(upPress: () -> Unit) {
   ) {
     val viewModel = hiltViewModel<NetworkConfigViewModel>()
     val uiState by viewModel.uiState.collectAsState()
-    NetworkConfig(upPress, uiState, viewModel::onSaveUrlAndUuid, viewModel::onSaveAutoSync)
+    NetworkConfig(
+        upPress,
+        uiState,
+        viewModel::onSaveUrlAndUuid,
+        viewModel::onSaveAutoSync,
+        viewModel::onSaveAsyncDuration,
+    )
   }
 }
 
@@ -53,12 +60,16 @@ fun NetworkConfig(
   upPress: () -> Unit,
   uiState: NetworkConfigUiState,
   onSaveUrlAndUuid: ((Context, String, String) -> Unit)? = null,
-  onSaveIsAutoSync: ((Boolean) -> Unit)? = null
+  onSaveIsAutoSync: ((Boolean) -> Unit)? = null,
+  onSaveAsyncDuration: ((Int) -> Unit)? = null
 ) {
   val context = LocalContext.current
 
   var baseUrl by remember { mutableStateOf(uiState.baseUrl) }
   var uuid by remember { mutableStateOf(uiState.uuid) }
+
+  val lastIndex = NetworkConfigUiState.asyncDurationSeconds.lastIndex
+  val currentIndex = NetworkConfigUiState.asyncDurationSeconds.indexOf(uiState.asyncDuration)
 
   LaunchedEffect(uiState) {
     // 优先使用本地缓存的值,点击保存按钮之后才将最新值保存到缓存中
@@ -109,6 +120,7 @@ fun NetworkConfig(
       ) {
         Text(stringResource(R.string.save))
       }
+
       Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
         Text(
             stringResource(R.string.net_info_sync_statue) +
@@ -123,6 +135,20 @@ fun NetworkConfig(
             },
         )
       }
+
+      Text(
+          text = "同步时间间隔（${uiState.asyncDuration.secondToFriendlyString()}）：",
+          modifier = Modifier.fillMaxWidth(),
+      )
+
+      Slider(
+          value = currentIndex * 1f / lastIndex,
+          enabled = uiState.isAutoSync,
+          onValueChange = { value ->
+            val index = (value * lastIndex).toInt()
+            onSaveAsyncDuration?.invoke(NetworkConfigUiState.asyncDurationSeconds[index])
+          },
+      )
     }
   }
 }

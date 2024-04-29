@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
+import io.github.jd1378.otphelper.data.SettingsRepository
 import io.github.jd1378.otphelper.network.NetUtils
 import io.github.jd1378.otphelper.network.bean.CloudClipboardBean
 import io.github.jd1378.otphelper.utils.Clipboard
@@ -18,6 +19,7 @@ import io.github.jd1378.otphelper.utils.Toaster
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,6 +33,8 @@ class ClipboardWatcherService : Service() {
 
   @Inject
   lateinit var clipboardNotification: ClipboardNotification
+  @Inject
+  lateinit var settingsRepository: SettingsRepository
 
   override fun onCreate() {
     super.onCreate()
@@ -77,7 +81,9 @@ class ClipboardWatcherService : Service() {
             response.data?.text ?: "",
         )
         notificationManager.notify(ClipboardNotification.NOTIFICATION_ID, notification)
-        delay(30000)
+
+        val delayDurationSecond = settingsRepository.getAutoSyncDuration().first()
+        delay(delayDurationSecond * 1_000L)
       }
 
     }

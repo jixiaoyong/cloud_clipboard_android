@@ -11,6 +11,7 @@ import io.github.jd1378.otphelper.BuildConfig
 import io.github.jd1378.otphelper.R
 import io.github.jd1378.otphelper.data.SettingsRepository
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,7 +25,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class ClipboardNotification
-@Inject constructor(settingsRepository: SettingsRepository) {
+@Inject constructor(private val settingsRepository: SettingsRepository) {
 
   companion object {
     const val NOTIFICATION_ID = 0x001
@@ -38,10 +39,17 @@ class ClipboardNotification
 
   private var currentClipboard = ""
   var isAsyncEnabled = true
-    private set
+    private set(value) {
+      GlobalScope.launch {
+        settingsRepository.setIsAutoSync(field)
+      }
+      field = value
+    }
 
   init {
-    GlobalScope.launch { isAsyncEnabled = settingsRepository.getIsAutoCopyEnabled() }
+    GlobalScope.launch {
+      isAsyncEnabled = settingsRepository.getIsAutoSyncStream().first()
+    }
   }
 
   fun createNotification(
@@ -105,12 +113,12 @@ class ClipboardNotification
         (if (isLoading) 0xff3C3C3C else 0xff2576F7).toInt(),
     )
     remoteView.setViewVisibility(
-            R.id.pauseBtn,
-            if (this.isAsyncEnabled) View.VISIBLE else View.GONE,
+        R.id.pauseBtn,
+        if (this.isAsyncEnabled) View.VISIBLE else View.GONE,
     )
     remoteView.setViewVisibility(
-            R.id.resumeBtn,
-            if (!this.isAsyncEnabled) View.VISIBLE else View.GONE,
+        R.id.resumeBtn,
+        if (!this.isAsyncEnabled) View.VISIBLE else View.GONE,
     )
 
     val action1: NotificationCompat.Action =

@@ -9,10 +9,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.jd1378.otphelper.R
 import io.github.jd1378.otphelper.data.SettingsRepository
 import io.github.jd1378.otphelper.network.NetUtils
-import io.github.jd1378.otphelper.ui.screens.home.HomeUiState
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,7 +27,14 @@ data class NetworkConfigUiState(
   val isAutoSync: Boolean = false,
   val baseUrl: String = "",
   val uuid: String = "",
-)
+  val asyncDuration: Int = defaultAsyncDuration
+) {
+
+  companion object {
+    const val defaultAsyncDuration = 10
+    val asyncDurationSeconds = arrayOf(5, defaultAsyncDuration, 15, 30, 60, 120, 300, 600)
+  }
+}
 
 @HiltViewModel
 class NetworkConfigViewModel
@@ -37,13 +43,16 @@ constructor(
   private val savedStateHandle: SavedStateHandle,
   private val settingsRepository: SettingsRepository
 ) : ViewModel() {
+
+
   val uiState: StateFlow<NetworkConfigUiState> =
       combine(
           settingsRepository.getIsAutoSyncStream(),
           settingsRepository.getBaseUrlStream(),
           settingsRepository.getUuidStream(),
-      ) { isAutoSync, baseUrl, uuid ->
-        NetworkConfigUiState(isAutoSync, baseUrl, uuid)
+          settingsRepository.getAutoSyncDuration(),
+      ) { isAutoSync, baseUrl, uuid, duration ->
+        NetworkConfigUiState(isAutoSync, baseUrl, uuid, duration)
       }
           .stateIn(
               scope = viewModelScope,
@@ -64,5 +73,23 @@ constructor(
       settingsRepository.setIsAutoSync(isAutoSync)
     }
   }
+
+  fun onSaveAsyncDuration(seconds: Int) {
+    viewModelScope.launch {
+      settingsRepository.setAutoSyncDuration(seconds)
+    }
+  }
 }
 
+fun Int.secondToFriendlyString(): String {
+  val second = this
+  val secondStr = if (second % 60 > 0) "${second % 60}秒" else ""
+  return when {
+    second < 60 -> "${second}秒"
+    second < 3600 -> "${second / 60}分钟$secondStr"
+    else -> {
+      val minuteStr = if (second / 60 > 0) "${second / 60}分钟" else ""
+      "${second / 3600}小时$minuteStr$secondStr"
+    }
+  }
+}
