@@ -2,6 +2,7 @@ package io.github.jd1378.otphelper.data
 
 import io.github.jd1378.otphelper.data.local.PreferenceDataStoreConstants
 import io.github.jd1378.otphelper.data.local.PreferenceDataStoreHelper
+import io.github.jd1378.otphelper.ui.screens.network_config.NetworkConfigUiState
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -83,9 +84,22 @@ constructor(private val preferenceDataStoreHelper: PreferenceDataStoreHelper) {
     )
   }
 
+   fun getAutoSyncDuration(): Flow<Int> {
+    return preferenceDataStoreHelper.getPreference(
+        PreferenceDataStoreConstants.AUTO_SYNC_SECONDS, NetworkConfigUiState.defaultAsyncDuration,
+    )
+  }
+
   suspend fun setIsAutoSync(newValue: Boolean) {
     preferenceDataStoreHelper.putPreference(
         PreferenceDataStoreConstants.IS_AUTO_SYNC, newValue,
+    )
+  }
+
+
+  suspend fun setAutoSyncDuration(seconds: Int) {
+    preferenceDataStoreHelper.putPreference(
+        PreferenceDataStoreConstants.AUTO_SYNC_SECONDS, seconds,
     )
   }
 

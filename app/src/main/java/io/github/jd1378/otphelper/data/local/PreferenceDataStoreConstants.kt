@@ -10,6 +10,7 @@ object PreferenceDataStoreConstants {
   val IS_POST_NOTIF_ENABLED = booleanPreferencesKey("IS_POST_NOTIF_ENABLED")
   val IS_SETUP_FINISHED = booleanPreferencesKey("IS_SETUP_FINISHED")
   val IS_AUTO_SYNC = booleanPreferencesKey("IS_AUTO_SYNC")
+  val AUTO_SYNC_SECONDS = intPreferencesKey("AUTO_SYNC_SECONDS")
   val CLIPBOARD_CONFIG = intPreferencesKey("CLIPBOARD_CONFIG")
   val IGNORED_NOTIF_SET = stringSetPreferencesKey("IGNORED_NOTIF_SET")
   val BASE_URL = stringPreferencesKey("BASE_URL")
