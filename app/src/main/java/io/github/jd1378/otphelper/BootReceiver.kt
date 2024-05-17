@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import io.github.jd1378.otphelper.utils.NotificationHelper
 import android.content.pm.PackageManager
+import io.github.jd1378.otphelper.background.ClipboardWatcherService
 
 class BootReceiver : BroadcastReceiver() {
   override fun onReceive(context: Context, intent: Intent?) {
@@ -28,5 +29,6 @@ class BootReceiver : BroadcastReceiver() {
         }
       }
     }
+    context.startService(Intent(context, ClipboardWatcherService::class.java))
   }
 }

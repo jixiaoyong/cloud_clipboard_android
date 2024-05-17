@@ -19,7 +19,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class NotifActionReceiver : BroadcastReceiver() {
 
-  @Inject lateinit var ignoredNotifSetRepository: IgnoredNotifSetRepository
+  @Inject
+  lateinit var ignoredNotifSetRepository: IgnoredNotifSetRepository
 
   companion object {
     const val INTENT_ACTION_CODE_COPY = "${BuildConfig.APPLICATION_ID}.actions.code_copy"
@@ -48,7 +49,11 @@ class NotifActionReceiver : BroadcastReceiver() {
 
         if (code != null) {
           NotificationHelper.sendDetectedNotif(
-              context, notif.extras, code, copied = Clipboard.copyCodeToClipboard(context, code))
+                  context,
+                  notif.extras,
+                  code,
+                  copied = Clipboard.copyCodeToClipboard(context, code),
+          )
         }
       }
     }
@@ -77,6 +82,7 @@ class NotifActionReceiver : BroadcastReceiver() {
                 .show()
           }
         }
+
         INTENT_ACTION_IGNORE_NOTIFICATION_APP -> {
           val ignoreWord = notif.extras.getString(CodeDetectedReceiver.INTENT_EXTRA_IGNORE_APP)
 
@@ -91,6 +97,7 @@ class NotifActionReceiver : BroadcastReceiver() {
                 .show()
           }
         }
+
         else -> {}
       }
     }
