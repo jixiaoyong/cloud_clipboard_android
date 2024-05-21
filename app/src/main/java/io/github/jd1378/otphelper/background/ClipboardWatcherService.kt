@@ -33,6 +33,7 @@ class ClipboardWatcherService : Service() {
 
   @Inject
   lateinit var clipboardNotification: ClipboardNotification
+
   @Inject
   lateinit var settingsRepository: SettingsRepository
 
@@ -54,36 +55,46 @@ class ClipboardWatcherService : Service() {
     val clipboardManager =
         getSystemService(Activity.CLIPBOARD_SERVICE) as? ClipboardManager
     val hasPrimaryClip = clipboardManager?.hasPrimaryClip()
-    val clipboardContent = clipboardManager?.primaryClip.toString()
+    val clipData = clipboardManager?.primaryClip
+    val clipboardContent = if (clipData != null && clipData.itemCount > 0) {
+      clipData.getItemAt(0).text.toString()
+    } else {
+      ""
+    }
 
     Log.d("TAG", "onStartCommand: $hasPrimaryClip $clipboardContent")
 
 
     readRemoteClipboardJob = GlobalScope.launch {
       // 定时任务
-      while (clipboardNotification.isAsyncEnabled) {
-        var notification =
-            clipboardNotification.createNotification(
-                this@ClipboardWatcherService,
-                isLoading = true,
-            )
-        notificationManager.notify(ClipboardNotification.NOTIFICATION_ID, notification)
-        val response = NetUtils.getApiOrNull()?.latest() ?: continue
-        if (response.isSuccess() && lastClipboard?.updatedTime != response.data?.updatedTime) {
-          lastClipboard = response.data
-
-          Log.d("TAG", "onStartCommand latest: $response clipboardContent $clipboardContent")
-          Toaster.show(applicationContext, response.data)
-          Clipboard.copyCodeToClipboard(applicationContext, response.data?.text ?: "")
-        }
-        notification = clipboardNotification.createNotification(
-            this@ClipboardWatcherService,
-            response.data?.text ?: "",
-        )
-        notificationManager.notify(ClipboardNotification.NOTIFICATION_ID, notification)
-
+      while (true) {
         val delayDurationSecond = settingsRepository.getAutoSyncDuration().first()
         delay(delayDurationSecond * 1_000L)
+
+        if (clipboardNotification.isAsyncEnabled) {
+          var notification =
+              clipboardNotification.createNotification(
+                  this@ClipboardWatcherService,
+                  isLoading = true,
+              )
+          notificationManager.notify(ClipboardNotification.NOTIFICATION_ID, notification)
+          Log.d("TAG", "onStartCommand latest: NetUtils.getApiOrNull()?.latest() ")
+
+          val response = NetUtils.getApiOrNull()?.latest() ?: continue
+          if (response.isSuccess() && lastClipboard?.updatedTime != response.data?.updatedTime) {
+            lastClipboard = response.data
+            val onlineClipboard = response.data?.text
+
+            Log.d("TAG", "onStartCommand latest: $response clipboardContent $onlineClipboard")
+            Toaster.show(applicationContext, onlineClipboard)
+            Clipboard.copyCodeToClipboard(applicationContext, onlineClipboard ?: "")
+          }
+          notification = clipboardNotification.createNotification(
+              this@ClipboardWatcherService,
+              response.data?.text ?: "",
+          )
+          notificationManager.notify(ClipboardNotification.NOTIFICATION_ID, notification)
+        }
       }
 
     }
